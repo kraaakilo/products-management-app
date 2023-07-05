@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Product List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body,
+      * {
+        font-family: Inter !important;
+      }
+    </style>
+    <link rel="stylesheet" href="/resources/css/styles.css" />
+  </head>
+  <body>
+    <div class="max-w-4xl mt-6 mx-auto">
+      <div class="relative overflow-x-auto">
+        <div class="flex justify-between my-8">
+          <h2 class="font-bold text-3xl">
+            Liste des produits (<span th:text="${count} + ' au total'"></span>)
+          </h2>
+          <a
+            href="/products/create"
+            class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center darks:bg-blue-600 darks:hover:bg-blue-700 darks:focus:ring-blue-800"
+          >
+            Ajouter un produit
+          </a>
+        </div>
+        <table
+          class="w-full text-sm text-left text-gray-500 darks:text-gray-400"
+        >
+          <thead
+            class="text-xs text-gray-700 uppercase bg-gray-50 darks:bg-gray-700 darks:text-gray-400"
+          >
+            <tr>
+              <th scope="col" class="px-6 py-3">Nom du Produit</th>
+              <th scope="col" class="px-6 py-3">Prix</th>
+              <th scope="col" class="px-6 py-3">Taxe</th>
+              <th scope="col" class="px-6 py-3">Date d'expiration</th>
+              <th scope="col" class="px-6 py-3">Produit Par</th>
+              <th scope="col" class="px-6 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              th:each="product : ${products}"
+              class="bg-white border-b darks:bg-gray-800 darks:border-gray-700"
+            >
+              <th
+                scope="row"
+                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap darks:text-white"
+                th:text="${product.getName()}"
+              ></th>
+              <td
+                class="px-6 py-4"
+                th:text="${product.getPrice() + ' ' + product.getCurrency()}"
+              ></td>
+              <td class="px-6 py-4" th:text="${product.getTax()}"></td>
+              <td class="px-6 py-4" th:text="${product.getExpired_at()}"></td>
+              <td class="px-6 py-4" th:text="${product.getProduced_by()}"></td>
+              <td class="px-6 py-4 flex gap-x-2">
+                <a
+                  class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center darks:bg-blue-600 darks:hover:bg-blue-700 darks:focus:ring-blue-800"
+                  th:href="@{'/products/edit/' + ${product.id}}"
+                  >Modifier</a
+                >
+                <a
+                  class="cursor-pointer text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center darks:bg-blue-600 darks:hover:bg-blue-700 darks:focus:ring-blue-800"
+                  th:href="@{'/products/delete/' + ${product.id}}"
+                  >Supprimer</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
